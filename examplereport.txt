@@ -1,0 +1,25 @@
+Found following files: 
+mock_data/html/basic.html
+mock_data/html/sub/basicsub.html
+mock_data/html/sub/subsub/basicsubsub.html
+mock_data/style/style.css
+-------------------------------
+Ignored following files: 
+-------------------------------
+CSS classes not found in any html file: 4
+-------------------------------
+
+entry
+basic
+menu-big
+menu
+
+DIV classes not found in any css file: 6
+-------------------------------
+
+dup
+unique-class
+sub-dir
+sub-dup
+sub-sub-dir
+top-dir
