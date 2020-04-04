@@ -6,6 +6,7 @@ import re
 finishInput = False
 dirsToIgnore = [];
 usedFiles = [];
+ignoredFiles = [];
 print("Want to ignore folder or files for the comparison? Y/N")
 text = input("")
 if text == "Y" or text == "y":
@@ -43,6 +44,7 @@ for entry in htmlFiles:
         for ignore in dirsToIgnore:
             if ignore in str(entry):
                 print("Ignoring:", str(entry))
+                ignoredFiles.append(str(entry))
                 ignoreFile = True 
     if not ignoreFile:
         file = open (entry,"r")
@@ -60,6 +62,7 @@ for entry in cssFiles:
         for ignore in dirsToIgnore:
             if ignore in str(entry):
                 print("ignoring", str(entry))
+                ignoredFiles.append(str(entry))
                 ignoreFile = True
     if not ignoreFile:
         file = open(entry, "r")
@@ -131,6 +134,12 @@ file.write("Found following files: \n")
 for entry in usedFiles:
     file.write(entry)
     file.write("\n")
+file.write("-------------------------------\n")
+file.write("Ignored following files: \n")
+for entry in ignoredFiles:
+    file.write(entry)
+    file.write("\n")
+file.write("-------------------------------\n")
 file.write("CSS classes not found in any html file: ")
 file.write(str(len(cssNotInDiv)))
 file.write("\n")

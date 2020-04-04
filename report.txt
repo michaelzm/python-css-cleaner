@@ -1,18 +1,23 @@
 Found following files: 
 html/basic.html
 style/style.css
+-------------------------------
+Ignored following files: 
+html/sub/basicsub.html
+html/sub/subsub/basicsubsub.html
+-------------------------------
 CSS classes not found in any html file: 6
 -------------------------------
 
-button
-entry
 menu
+button
 basic
+entry
 navbar
 menu-big
 
 DIV classes not found in any css file: 2
 -------------------------------
 
-top-dir
 dup
+top-dir
