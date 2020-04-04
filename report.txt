@@ -1,17 +1,18 @@
-CSS classes not found in any html file: 4
+Found following files: 
+html/basic.html
+style/style.css
+CSS classes not found in any html file: 6
 -------------------------------
 
-menu-big
-basic
+button
 entry
 menu
+basic
+navbar
+menu-big
 
-DIV classes not found in any css file: 6
+DIV classes not found in any css file: 2
 -------------------------------
 
-dup
-sub-dup
-sub-dir
-unique-class
-sub-sub-dir
 top-dir
+dup

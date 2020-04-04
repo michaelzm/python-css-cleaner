@@ -2,8 +2,28 @@ from pathlib import Path
 from html.parser import HTMLParser
 import re
 
+#ask user to ignore folders
+finishInput = False
+dirsToIgnore = [];
+usedFiles = [];
+print("Want to ignore folder or files for the comparison? Y/N")
+text = input("")
+if text == "Y" or text == "y":
+    while not finishInput:
+        print("Input folder- or filename to ignore (1)")
+        text = input("")
+        dirsToIgnore.append(text)
+        print("Ignore another folder/file? Y/N")
+        text = input("")
+        if text == "N" or text == "n":
+            finishInput = True
+
+    print("Ignoring following folders/fils:")
+    for ignoreDir in dirsToIgnore:
+        print(ignoreDir)
 #find all html files
 htmlFiles = list(Path(".").rglob("*.[hH][tT][mM][lL]"))
+
 print("Found",len(htmlFiles), "HTML file(s).")
 
 #find all css fiels
@@ -17,27 +37,44 @@ allLines = []
 
 #read all html files found inside the project folder 
 for entry in htmlFiles:
-    file = open (entry,"r")
-    lines =file.readlines()
-    for line in lines:
-        allLines.append(line)
+    ignoreFile = False
+    if len(dirsToIgnore) > 0:
+        #check if file is inside folder we want to ignore
+        for ignore in dirsToIgnore:
+            if ignore in str(entry):
+                print("Ignoring:", str(entry))
+                ignoreFile = True 
+    if not ignoreFile:
+        file = open (entry,"r")
+        usedFiles.append(str(entry))
+        lines =file.readlines()
+        for line in lines:
+            allLines.append(line)
 
 #read all css files found inside the project folder 
 print("Found follwing valid css class(es):")
 cssClassCounter = 0
 for entry in cssFiles:
-    file = open(entry, "r")
-    lines = file.readlines()
-    for line in lines:
-        #only find the actual css classes and remove the leading dot
-        reClass = re.compile(r'[.][a-zA-Z-1234567890]+')
-        finds = reClass.findall(line)
-        if finds:
-            #now add each class without the dot to the cssClassSet
-            for cssClass in finds:
-                print(cssClassCounter, cssClass)
-                cssClasses.add(cssClass[1:])
-                cssClassCounter += 1
+    ignoreFile = False
+    if len(dirsToIgnore)>0:
+        for ignore in dirsToIgnore:
+            if ignore in str(entry):
+                print("ignoring", str(entry))
+                ignoreFile = True
+    if not ignoreFile:
+        file = open(entry, "r")
+        usedFiles.append(str(entry))
+        lines = file.readlines()
+        for line in lines:
+            #only find the actual css classes and remove the leading dot
+            reClass = re.compile(r'[.][a-zA-Z-1234567890]+')
+            finds = reClass.findall(line)
+            if finds:
+                #now add each class without the dot to the cssClassSet
+                for cssClass in finds:
+                    print(cssClassCounter, cssClass)
+                    cssClasses.add(cssClass[1:])
+                    cssClassCounter += 1
 
 classCounter = 0
 
@@ -73,23 +110,27 @@ for line in allLines:
 #now match div classes to css and vice versa
 divNotInCss = set()
 cssNotInDiv = set()
-print("css:",cssClasses)
-print("divs:", divClasses)
 
 print()
 print("Finding unused div classes...")
+print("Following div classes have no related css entry:")
 for divClass in divClasses:
     if not divClass in cssClasses:
         divNotInCss.add(divClass)
-        print(divClass, "does not exist in css files.")
+        print(divClass)
 print()
 print("Finding unused css classes...")
+print("Following css classes have no related div classes in html files:")
 for cssClass in cssClasses:
     if not cssClass in divClasses:
         cssNotInDiv.add(cssClass)
-        print(cssClass, "does not exist in the html files.")
+        print(cssClass)
 
 file = open("report.txt", "w+")
+file.write("Found following files: \n")
+for entry in usedFiles:
+    file.write(entry)
+    file.write("\n")
 file.write("CSS classes not found in any html file: ")
 file.write(str(len(cssNotInDiv)))
 file.write("\n")
