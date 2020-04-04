@@ -1,0 +1,18 @@
+.basic {
+ margin-top: 10vh;
+}
+
+.entry {
+ background-color: white;
+}
+
+.navbar {
+ background-color: blue
+}
+
+.button {
+ width: 10vw;
+ height: 3vh;
+ background-color: yellow;
+}
+
