@@ -17,3 +17,5 @@ Will create a report.txt containing all unused classes.
 Use pyhon3
 
 Start the script with "python compare.py"
+
+![alt text](https://raw.githubusercontent.com/michaelzm/python-css-cleaner/master/example_log.png)
