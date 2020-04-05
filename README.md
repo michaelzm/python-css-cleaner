@@ -5,12 +5,14 @@ Will search all html, css and js files for div classes in order to find unused c
 ## Features:
 * find css classes without matching html div classes
 * find div classes without matching css classes or js functions
+* ignore folders or files for the script
 
 Works well with jQuery functions inside js files.
   
-Run the script inside the root directory of your project.
+Run the script inside the root directory of your project and input folders/files you wish to ignore.
+
 Will create a report.txt containing all unused classes.
 
 Use pyhon3
 
-Start the script with pthon compare.py
+Start the script with python compare.py
