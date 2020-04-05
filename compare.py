@@ -106,11 +106,9 @@ for entry in jsFiles:
             patternSetAttribute = r'.*setAttribute\x28[\x22\x27]class[\x22\x27],\s[\x22\x27]*([\w\s\-]*)'
             patternClassListAdd = r'.*classList.add\x28[\x22\x27]*([\w\s\-]*)'
             patternClassName = r'.*className\s*\+\=\s*[\x22\x27]*([\w\s\-]*)'
-            patternjQuery = r'.*\$\x28[\x22\x27]\.*([\w\s\-\.]*)'
             patternVanillaJs = r'.*getElementsByClassName\x28[\x22\x27]*([\w\s\-]*)'
-            patternClassSyntax = r'.*[\x22\x27].([\w\s\-\_]*)'
-            patternJQueryDocumentListener = r'.*\$\x28document\x29.on\x28[\x22\x27]\w+[\x22\x27],\s*[\x22\x27].([\w\s\-\_]*)'
-            patterns = [patternAddClass, patternSetAttribute, patternClassListAdd, patternClassName, patternjQuery, patternVanillaJs, patternClassSyntax, patternJQueryDocumentListener]
+            patternClassSyntax = r'.*[\x22\x27]\.([\w\s\-\_\.]*)'
+            patterns = [patternAddClass, patternSetAttribute, patternClassListAdd, patternClassName, patternVanillaJs, patternClassSyntax]
             for pattern in patterns:
                 finds = re.search(pattern, line)
                 if finds:

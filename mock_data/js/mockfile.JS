@@ -25,8 +25,9 @@ newElement.classList.add("class-added-via-classlist class-small-1 small-2 first"
 
 newElement.className += "add-dyn";
 
+this.someFunction($('.random-class.one-more-random-class'));
+
 //not working
 newElement.innerHTML = "<div class = 'class-added-via-inner-html'></div>";
 
-
-this.toggleConnections($('.element.icon_show_connection'));
+$jQElement.find('.some-class').append(someContainer);
