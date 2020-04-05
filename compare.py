@@ -245,7 +245,7 @@ for entry in divNotInCssOrJs:
 
 file.close()
 print()
-print("Created report.txt containing the files.")
+print("Created report.txt containing the classes and files.")
 t1 = time.time()
 total = t1-t0
 print("Finished after",round(total,2), "seconds.")
