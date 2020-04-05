@@ -18,4 +18,4 @@ Use pyhon3
 
 Start the script with "python compare.py"
 
-![alt text](https://raw.githubusercontent.com/michaelzm/python-css-cleaner/master/example_log.png)
+![alt text](https://raw.githubusercontent.com/michaelzm/python-css-cleaner/master/img/example_log.png)
