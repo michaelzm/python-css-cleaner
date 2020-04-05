@@ -106,7 +106,7 @@ for entry in jsFiles:
             patternSetAttribute = r'.*setAttribute\x28[\x22\x27]class[\x22\x27],\s[\x22\x27]*([\w\s\-]*)'
             patternClassListAdd = r'.*classList.add\x28[\x22\x27]*([\w\s\-]*)'
             patternClassName = r'.*className\s*\+\=\s*[\x22\x27]*([\w\s\-]*)'
-            patternjQuery = r'.*\$\x28[\x22\x27]\.*([\w\s\-]*)'
+            patternjQuery = r'.*\$\x28[\x22\x27]\.*([\w\s\-\.]*)'
             patternVanillaJs = r'.*getElementsByClassName\x28[\x22\x27]*([\w\s\-]*)'
             patternClassSyntax = r'.*[\x22\x27].([\w\s\-\_]*)'
             patternJQueryDocumentListener = r'.*\$\x28document\x29.on\x28[\x22\x27]\w+[\x22\x27],\s*[\x22\x27].([\w\s\-\_]*)'
@@ -114,9 +114,9 @@ for entry in jsFiles:
             for pattern in patterns:
                 finds = re.search(pattern, line)
                 if finds:
-                    findArray = finds[1].split(" ")
+                    findArray = finds[1].replace("."," ").split(" ")
                     for entry in findArray:
-                        if not entry in jsClasses:          
+                        if not entry in jsClasses and not entry =="":          
                             jsClasses.add(entry)
                             print(jsClassCounter, entry)
                             jsClassCounter += 1
@@ -126,7 +126,7 @@ class MyHTMLParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         global classCounter 
         classCounterForDiv = 0
-        if tag == "div" or tag == "select" or tag == "button" or tag == "label" or tag == "ul":
+        if tag == "div" or tag == "select" or tag == "button" or tag == "label" or tag == "span" or tag == "img" or tag == "ul":
             #print("Checking next div.")
             #go through all attributes
             for attr in attrs:
