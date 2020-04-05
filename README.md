@@ -1,6 +1,7 @@
 # python-css-cleaner
-Small python script for web development. 
-Will search all html, css and js files for div classes in order to find unused classes.
+Small python script for web development.
+
+Will search all html, css and js files for div classes without functionality.
 
 ## Features:
 * find css classes without matching html div classes
