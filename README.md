@@ -15,4 +15,4 @@ Will create a report.txt containing all unused classes.
 
 Use pyhon3
 
-Start the script with python compare.py
+Start the script with "python compare.py"
