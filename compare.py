@@ -27,12 +27,18 @@ htmlFiles = list(Path(".").rglob("*.[hH][tT][mM][lL]"))
 
 print("Found",len(htmlFiles), "HTML file(s).")
 
-#find all css fiels
+#find all css files
 cssFiles = list(Path(".").rglob("*.[cC][sS][sS]"))
 print("Found",len(cssFiles),"CSS File(s).")
 
+#find all js files
+jsFiles = list(Path(".").rglob("*.[jJ][sS]"))
+print("Found",len(jsFiles), "JS File(s).")
+
 divClasses = set()
 cssClasses = set()
+jsClasses = set()
+allJsLines = []
 allCssLines = []
 allLines = []
 
@@ -78,6 +84,52 @@ for entry in cssFiles:
                     print(cssClassCounter, cssClass)
                     cssClasses.add(cssClass[1:])
                     cssClassCounter += 1
+
+#read all js files found inside the project folder
+print("Found following valid class(es) dynamically added via js:")
+jsClassCounter = 0
+for entry in jsFiles:
+    ignoreFile = False
+    if len(dirsToIgnore)>0:
+        for ignore in dirsToIgnore:
+            if ignore in str(entry):
+                print("Ignoring", str(entry))
+                ignoredFiles.append(str(entry))
+                ignoreFile = True
+    if not ignoreFile:
+        file = open(entry, "r")
+        usedFiles.append(str(entry))
+        lines = file.readlines()
+        for line in lines:
+            #find all classes dyanmically added via js
+            patternAddClass = r'.*addClass\x28[\x22\x27]*([\w\s\-]*)' 
+            patternSetAttribute = r'.*setAttribute\x28[\x22\x27]class[\x22\x27],\s[\x22\x27]*([\w\s\-]*)'
+            patternClassListAdd = r'.*classList.add\x28[\x22\x27]*([\w\s\-]*)'
+            patternClassName = '.*className\s*\+\=\s*[\x22\x27]*([\w\s\-]*)'
+
+            patterns = [patternAddClass, patternSetAttribute, patternClassListAdd, patternClassName]
+            for pattern in patterns:
+                finds = re.search(pattern, line)
+                if finds:
+                    print(finds[1])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 classCounter = 0
 
