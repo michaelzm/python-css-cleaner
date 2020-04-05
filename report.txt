@@ -18,9 +18,9 @@ menu
 DIV classes not found in any css file: 6
 -------------------------------
 
-unique-class
-top-dir
-sub-sub-dir
 dup
 sub-dir
+sub-sub-dir
+unique-class
 sub-dup
+top-dir

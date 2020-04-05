@@ -60,7 +60,7 @@ for entry in htmlFiles:
             allLines.append(line)
 
 #read all css files found inside the project folder 
-print("Found follwing valid css class(es):")
+print("\n Found follwing valid css class(es):\n")
 cssClassCounter = 0
 for entry in cssFiles:
     ignoreFile = False
@@ -86,7 +86,7 @@ for entry in cssFiles:
                     cssClassCounter += 1
 
 #read all js files found inside the project folder
-print("Found following valid class(es) dynamically added via js:")
+print("\n Found following valid class(es) dynamically added  via js or used by js:")
 jsClassCounter = 0
 for entry in jsFiles:
     ignoreFile = False
@@ -105,32 +105,19 @@ for entry in jsFiles:
             patternAddClass = r'.*addClass\x28[\x22\x27]*([\w\s\-]*)' 
             patternSetAttribute = r'.*setAttribute\x28[\x22\x27]class[\x22\x27],\s[\x22\x27]*([\w\s\-]*)'
             patternClassListAdd = r'.*classList.add\x28[\x22\x27]*([\w\s\-]*)'
-            patternClassName = '.*className\s*\+\=\s*[\x22\x27]*([\w\s\-]*)'
-
-            patterns = [patternAddClass, patternSetAttribute, patternClassListAdd, patternClassName]
+            patternClassName = r'.*className\s*\+\=\s*[\x22\x27]*([\w\s\-]*)'
+            patternjQuery = r'.*\$\x28[\x22\x27]\.*([\w\s\-]*)'
+            patternVanillaJs = r'.*getElementsByClassName\x28[\x22\x27]*([\w\s\-]*)'
+            patterns = [patternAddClass, patternSetAttribute, patternClassListAdd, patternClassName, patternjQuery, patternVanillaJs]
             for pattern in patterns:
                 finds = re.search(pattern, line)
                 if finds:
-                    print(finds[1])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    findArray = finds[1].split(" ")
+                    for entry in findArray:
+                        if not entry in jsClasses:          
+                            jsClasses.add(entry)
+                            print(jsClassCounter, entry)
+                            jsClassCounter += 1
 classCounter = 0
 
 class MyHTMLParser(HTMLParser):
@@ -152,7 +139,7 @@ class MyHTMLParser(HTMLParser):
                              divClasses.add(entry)
                              classCounter += 1
 
-print("Found following div classes:")
+print("\n Found following div classes:\n")
 parser = MyHTMLParser()
 for line in allLines:
     #not working 
@@ -166,15 +153,13 @@ for line in allLines:
 divNotInCss = set()
 cssNotInDiv = set()
 
-print()
-print("Finding unused div classes...")
+print("\n Finding unused div classes...\n")
 print("Following div classes have no related css entry:")
 for divClass in divClasses:
     if not divClass in cssClasses:
         divNotInCss.add(divClass)
         print(divClass)
-print()
-print("Finding unused css classes...")
+print("\n Finding unused css classes...\n")
 print("Following css classes have no related div classes in html files:")
 for cssClass in cssClasses:
     if not cssClass in divClasses:
