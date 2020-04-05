@@ -2,10 +2,10 @@
  * This js file contains possible ways to add or use classes to div elements
  */
 //get via jquery
-var element = $(".get-via-jquery");
+var element = $(".get-via-jquery sub-dir");
 
 //vanilla js
-var anotherElement = document.getElementsByClassName("get-via-vanilla-js");
+var anotherElement = document.getElementsByClassName("get-via-vanilla-js navbar");
 
 
  //add via jquery

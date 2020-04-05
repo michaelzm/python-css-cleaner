@@ -7,20 +7,21 @@ mock_data/js/mockfile.JS
 -------------------------------
 Ignored following files: 
 -------------------------------
-CSS classes not found in any html file: 4
+CSS classes not found in any html or js file: 4
 -------------------------------
 
 menu-big
-basic
-entry
 menu
+entry
+basic
 
-DIV classes not found in any css file: 6
+DIV classes not found in any css or js file: 7
 -------------------------------
 
-dup
-sub-dir
-sub-sub-dir
 unique-class
 sub-dup
+dup
 top-dir
+sub-sub-dir
+button
+sub-dir

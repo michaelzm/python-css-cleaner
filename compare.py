@@ -150,20 +150,20 @@ for line in allLines:
         parser.feed(line)
 
 #now match div classes to css and vice versa
-divNotInCss = set()
-cssNotInDiv = set()
+divNotInCssOrJs = set()
+cssNotInDivOrJs = set()
 
 print("\n Finding unused div classes...\n")
-print("Following div classes have no related css entry:")
+print("Following div classes have no related css entry or get used by js:")
 for divClass in divClasses:
-    if not divClass in cssClasses:
-        divNotInCss.add(divClass)
+    if not divClass in cssClasses or not divClass in jsClasses:
+        divNotInCssOrJs.add(divClass)
         print(divClass)
 print("\n Finding unused css classes...\n")
-print("Following css classes have no related div classes in html files:")
+print("Following css classes have no related div classes in html files or js:")
 for cssClass in cssClasses:
-    if not cssClass in divClasses:
-        cssNotInDiv.add(cssClass)
+    if not cssClass in divClasses or not divClass in jsClasses:
+        cssNotInDivOrJs.add(cssClass)
         print(cssClass)
 
 file = open("report.txt", "w+")
@@ -177,24 +177,24 @@ for entry in ignoredFiles:
     file.write(entry)
     file.write("\n")
 file.write("-------------------------------\n")
-file.write("CSS classes not found in any html file: ")
-file.write(str(len(cssNotInDiv)))
+file.write("CSS classes not found in any html or js file: ")
+file.write(str(len(cssNotInDivOrJs)))
 file.write("\n")
 file.write("-------------------------------\n")
 file.write("\n")
 
-for entry in cssNotInDiv:
+for entry in cssNotInDivOrJs:
     file.write(entry)
     file.write("\n")
 
 file.write("\n")
-file.write("DIV classes not found in any css file: ")
-file.write(str(len(divNotInCss)))
+file.write("DIV classes not found in any css or js file: ")
+file.write(str(len(divNotInCssOrJs)))
 file.write("\n")
 file.write("-------------------------------\n")
 file.write("\n")
 
-for entry in divNotInCss:
+for entry in divNotInCssOrJs:
     file.write(entry)
     file.write("\n")
 
