@@ -11,6 +11,11 @@ var anotherElement = document.getElementsByClassName("get-via-vanilla-js navbar"
  //add via jquery
 $(".mock-class").addClass("test new-class jq-added-class first");
 
+//jQ Event Listener init
+$(document).on("click", '.jQ-doc-event-syntax', function(){});
+
+//in case of line breaks
+'.just-syntax'
 
 var newElement = document.createElement("div");
 //add class via attribute

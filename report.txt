@@ -6,21 +6,76 @@ mock_data/style/style.css
 mock_data/js/mockfile.JS
 -------------------------------
 Ignored following files: 
+
+-------------------------------
+-------------------------------
+Found following div classes inside html files:
+-------------------------------
+0:dup
+1:unique-class
+2:sub-dup
+3:navbar
+4:top-dir
+5:button
+6:sub-dir
+7:sub-sub-dir
+8:get-by-jq
+-------------------------------
+Found following div classes inside css files:
+-------------------------------
+0:add-dyn
+1:menu
+2:button-default
+3:small
+4:navbar
+5:basic
+6:button
+7:menu-big
+8:entry
+-------------------------------
+Found following div classes inside js files:
+-------------------------------
+0:
+1:first
+2:
+
+3:class-added-via-classlist
+4:small-2
+5:jQ-doc-event-syntax
+6:menu-big
+7:menu-size-1
+8:git
+9:new-class
+10:test
+11:get-via-jquery
+12:mock-class
+13:sub-dir
+14:class-small-1
+15:get-by-jq
+16:class-added-via-attribute
+17:function
+18:jq-added-class
+19:add-dyn
+20:navbar
+21:and-another-class
+22:get-via-vanilla-js
+23:just-syntax
 -------------------------------
 CSS classes not found in any html or js file: 5
 -------------------------------
 
-entry
-menu
-basic
-small
-button-default
+0:menu
+1:button-default
+2:small
+3:basic
+4:entry
 
-DIV classes not found in any css or js file: 5
+-------------------------------
+DIV classes not found in any css or js file:5
 -------------------------------
 
-top-dir
-sub-dup
-unique-class
-sub-sub-dir
-dup
+0:dup
+1:unique-class
+2:sub-dup
+3:top-dir
+4:sub-sub-dir

@@ -4,7 +4,6 @@ from html.parser import HTMLParser
 import re
 
 t0 = time.time()
-print("Start time:",t0)
 
 #ask user to ignore folders
 finishInput = False
@@ -76,7 +75,7 @@ for entry in cssFiles:
         lines = file.readlines()
         for line in lines:
             #only find the actual css classes and remove the leading dot
-            reClass = re.compile(r'[.][a-zA-Z-1234567890]+')
+            reClass = re.compile(r'[.][a-zA-Z\-\_1234567890]+')
             finds = reClass.findall(line)
             if finds:
                 #now add each class without the dot to the cssClassSet
@@ -109,7 +108,9 @@ for entry in jsFiles:
             patternClassName = r'.*className\s*\+\=\s*[\x22\x27]*([\w\s\-]*)'
             patternjQuery = r'.*\$\x28[\x22\x27]\.*([\w\s\-]*)'
             patternVanillaJs = r'.*getElementsByClassName\x28[\x22\x27]*([\w\s\-]*)'
-            patterns = [patternAddClass, patternSetAttribute, patternClassListAdd, patternClassName, patternjQuery, patternVanillaJs]
+            patternClassSyntax = r'.*[\x22\x27].([\w\s\-\_]*)'
+            patternJQueryDocumentListener = r'.*\$\x28document\x29.on\x28[\x22\x27]\w+[\x22\x27],\s*[\x22\x27].([\w\s\-\_]*)'
+            patterns = [patternAddClass, patternSetAttribute, patternClassListAdd, patternClassName, patternjQuery, patternVanillaJs, patternClassSyntax, patternJQueryDocumentListener]
             for pattern in patterns:
                 finds = re.search(pattern, line)
                 if finds:
@@ -125,7 +126,7 @@ class MyHTMLParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         global classCounter 
         classCounterForDiv = 0
-        if tag == "div":
+        if tag == "div" or tag == "select" or tag == "button" or tag == "label" or tag == "ul":
             #print("Checking next div.")
             #go through all attributes
             for attr in attrs:
@@ -176,11 +177,46 @@ file.write("Found following files: \n")
 for entry in usedFiles:
     file.write(entry)
     file.write("\n")
+basicCounter = 0
 file.write("-------------------------------\n")
 file.write("Ignored following files: \n")
+file.write("\n")
+file.write("-------------------------------\n")
 for entry in ignoredFiles:
-    file.write(entry)
+    file.write(str(basicCounter) + ":" + entry)
     file.write("\n")
+    basicCounter += 1
+
+basicCounter = 0
+file.write("-------------------------------\n")
+file.write("Found following div classes inside html files:")
+file.write("\n")
+file.write("-------------------------------\n")
+for entry in divClasses:
+       file.write(str(basicCounter) + ":" + entry)
+       file.write("\n")
+       basicCounter += 1
+
+basicCounter = 0
+file.write("-------------------------------\n")
+file.write("Found following div classes inside css files:")
+file.write("\n")
+file.write("-------------------------------\n")
+for entry in cssClasses:
+       file.write(str(basicCounter) + ":" + entry)
+       file.write("\n")
+       basicCounter += 1
+
+basicCounter = 0
+file.write("-------------------------------\n")
+file.write("Found following div classes inside js files:")
+file.write("\n")
+file.write("-------------------------------\n")
+for entry in jsClasses:
+       file.write(str(basicCounter) + ":" + entry)
+       file.write("\n")
+       basicCounter += 1
+
 file.write("-------------------------------\n")
 file.write("CSS classes not found in any html or js file: ")
 file.write(str(len(cssNotInDivOrJs)))
@@ -188,26 +224,31 @@ file.write("\n")
 file.write("-------------------------------\n")
 file.write("\n")
 
+
+basicCounter = 0
 for entry in cssNotInDivOrJs:
-    file.write(entry)
+    file.write(str(basicCounter) + ":" + entry)
     file.write("\n")
+    basicCounter += 1
 
 file.write("\n")
-file.write("DIV classes not found in any css or js file: ")
+file.write("-------------------------------\n")
+file.write("DIV classes not found in any css or js file:")
 file.write(str(len(divNotInCssOrJs)))
 file.write("\n")
 file.write("-------------------------------\n")
 file.write("\n")
 
+basicCounter = 0
 for entry in divNotInCssOrJs:
-    file.write(entry)
+    file.write(str(basicCounter) + ":" + entry)
     file.write("\n")
+    basicCounter += 1
 
 file.close()
 print()
 print("Created report.txt containing the files.")
 t1 = time.time()
 total = t1-t0
-print("End time:",t1)
-print("Finished after",total, "seconds.")
+print("Finished after",round(total,2), "seconds.")
 
