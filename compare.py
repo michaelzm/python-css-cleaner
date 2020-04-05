@@ -1,6 +1,10 @@
 from pathlib import Path
+import time
 from html.parser import HTMLParser
 import re
+
+t0 = time.time()
+print("Start time:",t0)
 
 #ask user to ignore folders
 finishInput = False
@@ -11,14 +15,12 @@ print("Want to ignore folder or files for the comparison? Y/N")
 text = input("")
 if text == "Y" or text == "y":
     while not finishInput:
-        print("Input folder- or filename to ignore (1)")
+        print("Input folder- or filename to ignore (if multiple, separate by comma)")
         text = input("")
-        dirsToIgnore.append(text)
-        print("Ignore another folder/file? Y/N")
-        text = input("")
-        if text == "N" or text == "n":
-            finishInput = True
-
+        ignoreDirs = text.split(",")
+        for dir in ignoreDirs:
+            dirsToIgnore.append(dir)
+        finishInput = True
     print("Ignoring following folders/fils:")
     for ignoreDir in dirsToIgnore:
         print(ignoreDir)
@@ -49,7 +51,6 @@ for entry in htmlFiles:
         #check if file is inside folder we want to ignore
         for ignore in dirsToIgnore:
             if ignore in str(entry):
-                print("Ignoring:", str(entry))
                 ignoredFiles.append(str(entry))
                 ignoreFile = True 
     if not ignoreFile:
@@ -67,7 +68,6 @@ for entry in cssFiles:
     if len(dirsToIgnore)>0:
         for ignore in dirsToIgnore:
             if ignore in str(entry):
-                print("ignoring", str(entry))
                 ignoredFiles.append(str(entry))
                 ignoreFile = True
     if not ignoreFile:
@@ -81,9 +81,11 @@ for entry in cssFiles:
             if finds:
                 #now add each class without the dot to the cssClassSet
                 for cssClass in finds:
-                    print(cssClassCounter, cssClass)
-                    cssClasses.add(cssClass[1:])
-                    cssClassCounter += 1
+                    if not cssClass[1:] in cssClasses:
+                        #todo rework to regex
+                        cssClasses.add(cssClass[1:])
+                        print(cssClassCounter, cssClass)
+                        cssClassCounter += 1
 
 #read all js files found inside the project folder
 print("\n Found following valid class(es) dynamically added  via js or used by js:")
@@ -93,7 +95,6 @@ for entry in jsFiles:
     if len(dirsToIgnore)>0:
         for ignore in dirsToIgnore:
             if ignore in str(entry):
-                print("Ignoring", str(entry))
                 ignoredFiles.append(str(entry))
                 ignoreFile = True
     if not ignoreFile:
@@ -155,16 +156,20 @@ cssNotInDivOrJs = set()
 
 print("\n Finding unused div classes...\n")
 print("Following div classes have no related css entry or get used by js:")
+notUsedCounter = 0
 for divClass in divClasses:
-    if not divClass in cssClasses or not divClass in jsClasses:
+    if not divClass in cssClasses and not divClass in jsClasses:
         divNotInCssOrJs.add(divClass)
-        print(divClass)
+        print(notUsedCounter,":", divClass)
+        notUsedCounter += 1
+
 print("\n Finding unused css classes...\n")
-print("Following css classes have no related div classes in html files or js:")
+print("Following css classes have no related div classes in html or js files:")
 for cssClass in cssClasses:
-    if not cssClass in divClasses or not divClass in jsClasses:
+    if not cssClass in divClasses and not cssClass in jsClasses:
         cssNotInDivOrJs.add(cssClass)
-        print(cssClass)
+        print(notUsedCounter, ":", cssClass)
+        notUsedCounter += 1
 
 file = open("report.txt", "w+")
 file.write("Found following files: \n")
@@ -201,3 +206,8 @@ for entry in divNotInCssOrJs:
 file.close()
 print()
 print("Created report.txt containing the files.")
+t1 = time.time()
+total = t1-t0
+print("End time:",t1)
+print("Finished after",total, "seconds.")
+

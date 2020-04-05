@@ -10,9 +10,17 @@
  background-color: blue
 }
 
+.button-default
 .button {
  width: 10vw;
  height: 3vh;
  background-color: yellow;
 }
 
+.add-dyn {
+    background-color: blue;
+}
+
+.small{
+
+}
